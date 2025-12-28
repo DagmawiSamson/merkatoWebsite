@@ -1,5 +1,9 @@
 import { motion } from 'framer-motion'
 import { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
+
+// Create motion-enabled Link component outside the render function
+const MotionLink = motion(Link)
 
 interface ButtonProps {
   children: ReactNode
@@ -23,7 +27,7 @@ const Button = ({
   type = 'button',
 }: ButtonProps) => {
   const baseStyles = 'font-semibold rounded-lg transition-all duration-300 inline-flex items-center justify-center'
-  
+
   const variants = {
     primary: 'bg-gradient-to-r from-ethiopian-green to-ethiopian-green/90 text-white hover:shadow-lg hover:scale-105',
     secondary: 'bg-ethiopian-yellow text-ethiopian-dark hover:bg-ethiopian-yellow/90 hover:shadow-lg hover:scale-105',
@@ -38,7 +42,8 @@ const Button = ({
 
   const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`
 
-  if (href) {
+  // External links (with target="_blank" or starting with http)
+  if (href && (target === '_blank' || href.startsWith('http'))) {
     return (
       <motion.a
         href={href}
@@ -50,6 +55,20 @@ const Button = ({
       >
         {children}
       </motion.a>
+    )
+  }
+
+  // Internal links using React Router
+  if (href) {
+    return (
+      <MotionLink
+        to={href}
+        className={classes}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        {children}
+      </MotionLink>
     )
   }
 
