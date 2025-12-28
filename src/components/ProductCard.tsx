@@ -10,7 +10,7 @@ interface ProductCardProps {
   delay?: number
 }
 
-const ProductCard = ({ name, description, price, image, category, delay = 0 }: ProductCardProps) => {
+const ProductCard = ({ name, description, image, category, delay = 0 }: ProductCardProps) => {
   return (
     <motion.div
       className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"

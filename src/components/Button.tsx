@@ -7,6 +7,7 @@ interface ButtonProps {
   size?: 'sm' | 'md' | 'lg'
   onClick?: () => void
   href?: string
+  target?: string
   className?: string
   type?: 'button' | 'submit' | 'reset'
 }
@@ -17,6 +18,7 @@ const Button = ({
   size = 'md',
   onClick,
   href,
+  target,
   className = '',
   type = 'button',
 }: ButtonProps) => {
@@ -40,6 +42,8 @@ const Button = ({
     return (
       <motion.a
         href={href}
+        target={target}
+        rel={target === '_blank' ? 'noopener noreferrer' : undefined}
         className={classes}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
