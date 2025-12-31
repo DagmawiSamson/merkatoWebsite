@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Search } from 'lucide-react'
 import ProductCard from '../components/ProductCard'
+import ImageModal from '../components/ImageModal'
 
 interface Product {
   name: string
@@ -13,97 +13,41 @@ interface Product {
 }
 
 const Products = () => {
-  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const products: Product[] = [
-    // Food Items
-    {
-      id: '1',
-      name: 'Fried Triangles (Sambusa)',
-      description: 'Traditional Ethiopian fried pastries, perfect for snacks',
-      price: '$6.99',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/X87GQr4x3BPunGWxS-mIow/o.jpg',
-      category: 'food',
-    },
-    // Music & DVDs
-    {
-      id: '2',
-      name: 'Ethiopian Music CDs',
-      description: 'Wide variety of Ethiopian music CDs and DVDs',
-      price: '$12.99',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/W6eU3xBTFnCN-Eqn2mc3Sw/o.jpg',
-      category: 'media',
-    },
-    // Books
-    {
-      id: '3',
-      name: 'Ethiopian Books',
-      description: 'Wide range of books on Ethiopian culture and history',
-      price: '$15.99',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/-GPsLjQYDqoX3Q_l1wQVfA/o.jpg',
-      category: 'books',
-    },
-    // Traditional Clothing
-    {
-      id: '4',
-      name: 'Traditional Hats',
-      description: 'Authentic Ethiopian traditional hats',
-      price: '$24.99',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/0ENrx8UKCGFNzJ6lF7_qmQ/o.jpg',
-      category: 'clothing',
-    },
-    // Home Decor
-    {
-      id: '5',
-      name: 'Framed Pictures',
-      description: 'Beautiful framed Ethiopian artwork and pictures',
-      price: '$29.99',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/f1vg0Xe75fEyzRuZTelXkg/o.jpg',
-      category: 'decor',
-    },
-    // Cooking Utensils
-    {
-      id: '6',
-      name: 'Cooking Utensils',
-      description: 'Wide selection of traditional Ethiopian cooking utensils',
-      price: '$19.99',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/6_LMrVNJD9ThQkDBNfBGfA/o.jpg',
-      category: 'utensils',
-    },
-    // Baskets
-    {
-      id: '7',
-      name: 'Woven Baskets',
-      description: 'Traditional Ethiopian woven baskets for serving and storage',
-      price: '$34.99',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/OB4PObf7OeVNfUjYb2UCJA/o.jpg',
-      category: 'baskets',
-    },
-    // Furniture
-    {
-      id: '8',
-      name: 'Acumen Chair',
-      description: 'Traditional Ethiopian chair',
-      price: '$89.99',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/bXM-Idd70nJTue-saZ5mKQ/o.jpg',
-      category: 'furniture',
-    },
-    // Imported Foods
-    {
-      id: '9',
-      name: 'Imported Ethiopian Foods',
-      description: 'Various imported Ethiopian food products and ingredients',
-      price: '$12.99',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/1EJb6a-6jP6aHW_OKMU-4Q/o.jpg',
-      category: 'food',
-    },
+  const handleImageClick = (image: string) => {
+    setSelectedImage(image)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedImage(null)
+  }
+
+  // All 49 images
+  const imageFiles = [
+    'IMG_3467.JPG', 'IMG_3468.JPG', 'IMG_3469.JPG', 'IMG_3470.JPG', 'IMG_3471.JPG',
+    'IMG_3472.JPG', 'IMG_3473.JPG', 'IMG_3474.JPG', 'IMG_3475.JPG', 'IMG_3476.JPG',
+    'IMG_3477.JPG', 'IMG_3480.JPG', 'IMG_3483.JPG', 'IMG_3484.JPG', 'IMG_3486.JPG',
+    'IMG_3491.JPG', 'IMG_3492.JPG', 'IMG_3493.JPG', 'IMG_3494.JPG', 'IMG_3495.JPG',
+    'IMG_3496.JPG', 'IMG_3497.JPG', 'IMG_3498.JPG', 'IMG_3500.JPG', 'IMG_3501.JPG',
+    'IMG_3502.JPG', 'IMG_3503.JPG', 'IMG_3504.JPG', 'IMG_3505.JPG', 'IMG_3506.JPG',
+    'IMG_3507.JPG', 'IMG_3508.JPG', 'IMG_3509.JPG', 'IMG_3510.JPG', 'IMG_3511.JPG',
+    'IMG_3512.JPG', 'IMG_3514.JPG', 'IMG_3515.JPG', 'IMG_3518.JPG', 'IMG_3519.JPG',
+    'IMG_3520.JPG', 'IMG_3521.JPG', 'IMG_3522.JPG', 'IMG_3523.JPG', 'IMG_3524.JPG',
+    'IMG_3526.JPG', 'IMG_3527.JPG', 'IMG_3528.JPG', 'IMG_3529.JPG'
   ]
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesSearch
-  })
+  const products: Product[] = imageFiles.map((imageFile, index) => ({
+    id: String(index + 1),
+    name: '',
+    description: '',
+    price: '',
+    image: `/images/${imageFile}`,
+    category: '',
+  }))
 
   return (
     <div className="pt-20 min-h-screen bg-ethiopian-light">
@@ -123,31 +67,12 @@ const Products = () => {
         </div>
       </section>
 
-      {/* Search */}
-      <section className="py-8 bg-white sticky top-20 z-40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto">
-            {/* Search Bar */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ethiopian-green"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Products Grid */}
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.map((product, index) => (
+          {products.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+              {products.map((product, index) => (
                 <ProductCard
                   key={product.id}
                   name={product.name}
@@ -155,7 +80,8 @@ const Products = () => {
                   price={product.price}
                   image={product.image}
                   category=""
-                  delay={index * 0.05}
+                  delay={0}
+                  onClick={() => handleImageClick(product.image)}
                 />
               ))}
             </div>
@@ -171,9 +97,15 @@ const Products = () => {
           )}
         </div>
       </section>
+
+      {/* Image Modal */}
+      <ImageModal
+        image={selectedImage}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   )
 }
 
 export default Products
-

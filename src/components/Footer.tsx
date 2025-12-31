@@ -1,14 +1,8 @@
 import { Link } from 'react-router-dom'
-import { Facebook, Instagram, Twitter, Phone, MapPin } from 'lucide-react'
+import { Phone, MapPin, Mail } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const Footer = () => {
-  const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-  ]
-
   const footerLinks = {
     shop: [
       { label: 'All Products', path: '/products' },
@@ -36,27 +30,9 @@ const Footer = () => {
             <h3 className="text-2xl font-bold text-ethiopian-gradient mb-4 font-display">
               MerkatoMart
             </h3>
-            <p className="text-gray-300 mb-4">
+            <p className="text-gray-300">
               Your authentic Ethiopian mini mart, bringing the flavors of Merkato to your neighborhood.
             </p>
-            <div className="flex space-x-4">
-              {socialLinks.map((social) => {
-                const Icon = social.icon
-                return (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-ethiopian-green transition-colors"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <Icon size={20} />
-                  </motion.a>
-                )
-              })}
-            </div>
           </motion.div>
 
           {/* Shop Links */}
@@ -72,7 +48,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.path}
-                    className="text-gray-300 hover:text-ethiopian-yellow transition-colors"
+                    className="text-gray-300 hover:text-ethiopian-yellow transition-colors touch-manipulation inline-block py-1.5"
                   >
                     {link.label}
                   </Link>
@@ -94,7 +70,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.path}
-                    className="text-gray-300 hover:text-ethiopian-yellow transition-colors"
+                    className="text-gray-300 hover:text-ethiopian-yellow transition-colors touch-manipulation inline-block py-1.5"
                   >
                     {link.label}
                   </Link>
@@ -118,8 +94,14 @@ const Footer = () => {
               </li>
               <li className="flex items-center space-x-3">
                 <Phone size={20} className="text-ethiopian-yellow flex-shrink-0" />
-                <a href="tel:4043209777" className="text-gray-300 hover:text-ethiopian-yellow">
+                <a href="tel:4043209777" className="text-gray-300 hover:text-ethiopian-yellow touch-manipulation py-2">
                   (404) 320-9777
+                </a>
+              </li>
+              <li className="flex items-center space-x-3">
+                <Mail size={20} className="text-ethiopian-yellow flex-shrink-0" />
+                <a href="mailto:merkatomart@gmail.com" className="text-gray-300 hover:text-ethiopian-yellow break-all touch-manipulation py-2">
+                  merkatomart@gmail.com
                 </a>
               </li>
             </ul>

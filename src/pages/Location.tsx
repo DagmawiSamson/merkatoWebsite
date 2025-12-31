@@ -11,6 +11,7 @@ const Location = () => {
   const address = '3950 Buford Hwy NE Unit A, Chamblee, GA 30345, United States'
   const phoneNumber = '4043209777'
   const formattedPhone = '(404) 320-9777'
+  const email = 'merkatomart@gmail.com'
 
   return (
     <div className="pt-20 min-h-screen bg-ethiopian-light">
@@ -93,6 +94,20 @@ const Location = () => {
                 </div>
               </div>
 
+              <div className="bg-white rounded-xl p-6 shadow-md">
+                <div className="flex items-start space-x-4 mb-4">
+                  <div className="w-12 h-12 bg-ethiopian-red rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Mail className="text-white" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Email</h3>
+                    <a href={`mailto:${email}`} className="text-ethiopian-green hover:underline text-lg break-all">
+                      {email}
+                    </a>
+                  </div>
+                </div>
+              </div>
+
               <Button
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}
                 target="_blank"
@@ -161,12 +176,13 @@ const Location = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <motion.a
               href={`tel:${phoneNumber}`}
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all text-center"
+              className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all text-center touch-manipulation active:scale-[0.98] block"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               whileHover={{ y: -5 }}
+              whileTap={{ scale: 0.98 }}
             >
               <div className="w-16 h-16 mx-auto mb-4 bg-ethiopian-green rounded-full flex items-center justify-center">
                 <Phone className="text-white" size={32} />
@@ -177,12 +193,13 @@ const Location = () => {
 
             <motion.a
               href="/contact"
-              className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all text-center"
+              className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all text-center touch-manipulation active:scale-[0.98] block"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
               whileHover={{ y: -5 }}
+              whileTap={{ scale: 0.98 }}
             >
               <div className="w-16 h-16 mx-auto mb-4 bg-ethiopian-yellow rounded-full flex items-center justify-center">
                 <Mail className="text-ethiopian-dark" size={32} />

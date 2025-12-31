@@ -1,30 +1,44 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Star, Coffee, Wheat, ShoppingBag } from 'lucide-react'
 import Button from '../components/Button'
 import ProductCard from '../components/ProductCard'
+import ImageModal from '../components/ImageModal'
 
 const Home = () => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleImageClick = (image: string) => {
+    setSelectedImage(image)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedImage(null)
+  }
   const featuredProducts = [
     {
-      name: 'Fried Triangles (Sambusa)',
-      description: 'Traditional Ethiopian fried pastries, perfect for snacks',
+      name: '',
+      description: '',
       price: '',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/X87GQr4x3BPunGWxS-mIow/o.jpg',
+      image: '/images/IMG_3467.JPG',
       category: '',
     },
     {
-      name: 'Ethiopian Music CDs',
-      description: 'Wide variety of Ethiopian music CDs and DVDs',
+      name: '',
+      description: '',
       price: '',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/W6eU3xBTFnCN-Eqn2mc3Sw/o.jpg',
+      image: '/images/IMG_3468.JPG',
       category: '',
     },
     {
-      name: 'Woven Baskets',
-      description: 'Traditional Ethiopian woven baskets for serving and storage',
+      name: '',
+      description: '',
       price: '',
-      image: 'https://s3-media0.fl.yelpcdn.com/bphoto/OB4PObf7OeVNfUjYb2UCJA/o.jpg',
+      image: '/images/IMG_3469.JPG',
       category: '',
     },
   ]
@@ -144,7 +158,7 @@ const Home = () => {
             <p className="text-gray-600 text-lg">Discover our wide selection of authentic Ethiopian products</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
             {categories.map((category, index) => {
               const Icon = category.icon
               return (
@@ -157,7 +171,7 @@ const Home = () => {
                 >
                   <Link
                     to={category.link}
-                    className="block bg-gradient-to-br from-ethiopian-green/10 to-ethiopian-yellow/10 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 group"
+                    className="block bg-gradient-to-br from-ethiopian-green/10 to-ethiopian-yellow/10 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 group touch-manipulation active:scale-[0.98]"
                   >
                     <motion.div
                       className="w-16 h-16 mx-auto mb-4 bg-ethiopian-green rounded-full flex items-center justify-center text-white"
@@ -192,7 +206,12 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             {featuredProducts.map((product, index) => (
-              <ProductCard key={product.name} {...product} delay={index * 0.1} />
+              <ProductCard 
+                key={index} 
+                {...product} 
+                delay={index * 0.1}
+                onClick={() => handleImageClick(product.image)}
+              />
             ))}
           </div>
 
@@ -295,6 +314,12 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Image Modal */}
+      <ImageModal
+        image={selectedImage}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   )
 }
