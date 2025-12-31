@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 
 interface ButtonProps {
   children: ReactNode
@@ -7,6 +8,7 @@ interface ButtonProps {
   size?: 'sm' | 'md' | 'lg'
   onClick?: () => void
   href?: string
+  to?: string
   target?: string
   className?: string
   type?: 'button' | 'submit' | 'reset'
@@ -18,6 +20,7 @@ const Button = ({
   size = 'md',
   onClick,
   href,
+  to,
   target,
   className = '',
   type = 'button',
@@ -38,19 +41,50 @@ const Button = ({
 
   const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`
 
-  if (href) {
+  // Use React Router Link for internal navigation
+  if (to) {
     return (
-      <motion.a
-        href={href}
-        target={target}
-        rel={target === '_blank' ? 'noopener noreferrer' : undefined}
-        className={classes}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {children}
-      </motion.a>
+      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <Link
+          to={to}
+          className={classes}
+        >
+          {children}
+        </Link>
+      </motion.div>
     )
+  }
+
+  // Use regular anchor for external links
+  if (href) {
+    const isExternal = href.startsWith('http') || href.startsWith('//') || href.startsWith('mailto:') || href.startsWith('tel:')
+    
+    if (isExternal || target === '_blank') {
+      return (
+        <motion.a
+          href={href}
+          target={target}
+          rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+          className={classes}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {children}
+        </motion.a>
+      )
+    } else {
+      // Internal link - use React Router Link
+      return (
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Link
+            to={href}
+            className={classes}
+          >
+            {children}
+          </Link>
+        </motion.div>
+      )
+    }
   }
 
   return (
